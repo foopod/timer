@@ -101,25 +101,33 @@
         function loop(){
             var now = new Date();
             var duration = deadline - now;
-            var milliseconds = parseInt((duration % 1000) ),
-                seconds = Math.floor((duration / 1000) % 60),
-                minutes = Math.floor((duration / (1000 * 60)));
+            if(duration > 1){
+                var milliseconds = parseInt((duration % 1000) ),
+                    seconds = Math.floor((duration / 1000) % 60),
+                    minutes = Math.floor((duration / (1000 * 60)));
 
 
-            document.getElementById("clock").innerHTML = minutes.toString().padStart(2, '0') + ":" + seconds.toString().padStart(2, '0');
-            document.getElementById("millis").innerHTML = milliseconds.toString().padStart(3, '0');
+                document.getElementById("clock").innerHTML = minutes.toString().padStart(2, '0') + ":" + seconds.toString().padStart(2, '0');
+                document.getElementById("millis").innerHTML = milliseconds.toString().padStart(3, '0');
+            } else {
+                reset();
+            }
         };
 
         function stopLoop(){
             var now = new Date();
             var duration = now - timeStart;
-            var milliseconds = parseInt((duration % 1000) ),
-                seconds = Math.floor((duration / 1000) % 60),
-                minutes = Math.floor((duration / (1000 * 60)));
+            if(duration > 1){
+                var milliseconds = parseInt((duration % 1000) ),
+                    seconds = Math.floor((duration / 1000) % 60),
+                    minutes = Math.floor((duration / (1000 * 60)));
 
 
-            document.getElementById("clock").innerHTML = minutes.toString().padStart(2, '0') + ":" + seconds.toString().padStart(2, '0');
-            document.getElementById("millis").innerHTML = milliseconds.toString().padStart(3, '0');
+                document.getElementById("clock").innerHTML = minutes.toString().padStart(2, '0') + ":" + seconds.toString().padStart(2, '0');
+                document.getElementById("millis").innerHTML = milliseconds.toString().padStart(3, '0');
+            } else {
+                reset();
+            }
         };
 
         function startTimer(){
