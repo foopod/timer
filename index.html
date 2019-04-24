@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <title>Hello World!</title>
+      <style>
+          body {
+            text-align : center;
+            font-family : courier;
+            background-color:lightblue;
+              overflow: hidden;
+              -webkit-app-region: drag;
+          }
+          
+          #clock{
+            font-size:20vw;
+          }
+          #millis{
+            font-size:55vw;  
+            position:absolute;
+            top:-2%;
+            left:0%;
+            color:#BBDFEA;
+            z-index: -10;
+          }
+          button{
+              color:white;
+              background-color:#27B3DD;
+              border:none;
+              border-radius:2vh;
+              font-size:6vh;
+              padding: 2vh 2vh;
+              margin-left:1vw;
+          }
+          input{
+              color:black;
+              background-color:white;
+              border:none;
+              border-radius:2vh;
+              font-size:6vh;
+              padding: 2vh 2vh;
+              width:8vh;
+              text-align:right;
+          }
+          .footer {
+              position: fixed;
+              left: 0;
+              bottom: 2vw;
+              width: 100%;
+              color: white;
+              text-align: center;
+           }
+      </style>
+  </head>
+  <body>
+    <h1 id='clock'></h1>
+    
+    <div id='millis'>
+    </div>
+    <div class='footer'>
+        <input id="minutes" value="5"/>
+        <button id="startButton"> Timer </button>
+        <button id="stopwatchButton"> Stopwatch </button>
+        <button id="resetButton"> Reset </button>
+    </div>
+    <script>
+        var deadline;
+        var timeStart;
+        var interval;
+
+
+        function loop(){
+            var now = new Date();
+            var duration = deadline - now;
+            var milliseconds = parseInt((duration % 1000) ),
+                seconds = Math.floor((duration / 1000) % 60),
+                minutes = Math.floor((duration / (1000 * 60)));
+
+
+            document.getElementById("clock").innerHTML = minutes.toString().padStart(2, '0') + ":" + seconds.toString().padStart(2, '0');
+            document.getElementById("millis").innerHTML = milliseconds.toString().padStart(3, '0');
+        };
+
+        function stopLoop(){
+            var now = new Date();
+            var duration = now - timeStart;
+            var milliseconds = parseInt((duration % 1000) ),
+                seconds = Math.floor((duration / 1000) % 60),
+                minutes = Math.floor((duration / (1000 * 60)));
+
+
+            document.getElementById("clock").innerHTML = minutes.toString().padStart(2, '0') + ":" + seconds.toString().padStart(2, '0');
+            document.getElementById("millis").innerHTML = milliseconds.toString().padStart(3, '0');
+        };
+
+        function startTimer(){
+            var remaining = document.getElementById("minutes").value;
+            deadline = addMinutes(remaining);
+            clearInterval(interval);
+            interval = setInterval(loop, 33);
+        };
+
+        function startStopwatch(){
+            timeStart = new Date();
+            clearInterval(interval);
+            interval = setInterval(stopLoop, 33);
+        };
+
+        function reset(){
+            clearInterval(interval);
+            document.getElementById("clock").innerHTML = "00:00";
+            document.getElementById("millis").innerHTML = "000";
+        }
+
+        function addMinutes(minutes) {
+            //return new Date() + minutes*60000;
+            return new Date(new Date().getTime() + minutes*60000);
+        }
+
+        document.getElementById('startButton').addEventListener('click', () => {
+            startTimer();
+        })
+
+        document.getElementById('stopwatchButton').addEventListener('click', () => {
+            startStopwatch();
+        })
+
+        document.getElementById('resetButton').addEventListener('click', () => {
+            reset();
+        })
+
+        document.getElementById("clock").innerHTML = "00:00";
+        document.getElementById("millis").innerHTML = "000";
+    </script>
+  </body>
+</html>
