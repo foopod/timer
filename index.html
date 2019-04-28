@@ -132,6 +132,9 @@
 
         function startTimer(){
             var remaining = document.getElementById("minutes").value;
+            for(i = 1; i < 5; i++){
+                beeplist.push(beep(remaining*60*1000+500*i));
+            }
             for(i = 0; i < 11; i++){
                 beeplist.push(beep(remaining*60*1000 - i*1000));
             }
@@ -159,14 +162,17 @@
 
         function reset(){
             clearInterval(interval);
+            document.getElementById("clock").innerHTML = "00:00";
+            document.getElementById("millis").innerHTML = "000";
+        }
+        
+        function clearbeeps(){
             if(beeplist.length > 0){
                 for(beeps in beeplist){
                     clearTimeout(beeps);
                 }
                 beeplist = [];
             }
-            document.getElementById("clock").innerHTML = "00:00";
-            document.getElementById("millis").innerHTML = "000";
         }
 
         function addMinutes(minutes) {
@@ -183,8 +189,19 @@
         })
 
         document.getElementById('resetButton').addEventListener('click', () => {
+            clearbeeps();
             reset();
         })
+        
+        document.getElementById('startButton').addEventListener("keyup", function(event) {
+            // Number 13 is the "Enter" key on the keyboard
+            if (event.keyCode === 13) {
+                // Cancel the default action, if needed
+                event.preventDefault();
+                // Trigger the button element with a click
+                document.getElementById("submitButton").click();
+            }
+        });
 
         document.getElementById("clock").innerHTML = "00:00";
         document.getElementById("millis").innerHTML = "000";
