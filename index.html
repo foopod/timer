@@ -61,6 +61,12 @@
               color: white;
               text-align: center;
            }
+          #toggleBeep{
+              position:fixed;
+              top:10px;
+              right:10px;
+              font-size:2vw;
+          }
           @media screen and (min-width: 600px) {
               input, button {
                 font-size:4.5vh;
@@ -84,7 +90,8 @@
   </head>
   <body>
     <h1 id='clock'></h1>
-    
+    <div id='toggleBeep'>beep
+    </div>
     <div id='millis'>
     </div>
     <div class='footer'>
@@ -98,6 +105,7 @@
         var timeStart;
         var interval;
         var audio = new Audio('blip.wav');
+        var beepOn = true;
         var beeplist  = [];
 
 
@@ -151,7 +159,11 @@
         };
         
         function beep(millis) {
-            return setTimeout(function(){ audio.play() }, millis);
+            return setTimeout(function(){ 
+                if(beepOn){
+                    audio.play() 
+                }
+            }, millis);
         }
 
         function startStopwatch(){
@@ -191,6 +203,16 @@
         document.getElementById('resetButton').addEventListener('click', () => {
             clearbeeps();
             reset();
+        })
+        
+        document.getElementById('toggleBeep').addEventListener('click', () => {
+            if(beepOn){
+                document.getElementById('toggleBeep').style.textDecoration = 'line-through';
+            } else {
+                document.getElementById('toggleBeep').style.textDecoration = 'none';
+            }
+            
+            beepOn = !beepOn;
         })
         
         document.getElementById('startButton').addEventListener("keyup", function(event) {
